@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import roastData from "../assets/roast.json";
 
 const MainRoast = () => {
-  //   const roastData = JSON.parse(roastDataJson);
   const router = useRouter();
 
   const handleViewLink = (name: string) => {
