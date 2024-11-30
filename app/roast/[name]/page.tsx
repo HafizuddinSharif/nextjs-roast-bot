@@ -10,11 +10,6 @@ const Roast = () => {
 
   const getRoastList = roastData.roasts.find((e) => e.name === name)?.roast;
 
-  const roastData2 = roastData as Object;
-  Object.keys(roastData).map(() => {
-    Object.entries(roastData);
-  });
-
   const [roast, setRoast] = useState("");
   const [level, setLevel] = useState(1);
   const [pre, setPre] = useState(getRoastList.light.pre);

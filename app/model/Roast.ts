@@ -13,7 +13,3 @@ type RoastItem = {
   name: string;
   roast: Roast;
 };
-
-type RoastList = {
-  roasts: RoastItem[];
-};

@@ -45,11 +45,6 @@ const MainRoast = () => {
               </div>
             );
           })}
-          {/* <div className="col-span-1 text-left">Saiful</div>
-          <div className="col-span-1 flex justify-end ">
-            <Copy className="pr-1" onClick={() => handleCopyLink("sharif")} />
-            <Eye onClick={() => handleViewLink("sharif")} />
-          </div> */}
         </div>
       </div>
     </div>

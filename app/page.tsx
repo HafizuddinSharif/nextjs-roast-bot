@@ -30,7 +30,7 @@ export default function Home() {
         // Reset scale and stop shaking
         gsap.to(roastRef.current, { scale: 1.5, opacity: 1, duration: 0.3 });
 
-        let tl = gsap.timeline();
+        const tl = gsap.timeline();
 
         let spin = 0;
 
