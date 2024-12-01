@@ -30,15 +30,12 @@ const Roast = () => {
         if (level === 1) {
           setRoast(getRoastList.light.roast);
           setLevel(2);
-          // setTimeout(() => setPre(getRoastList.medium.pre), 2000);
         } else if (level === 2) {
           setRoast(getRoastList.medium.roast);
           setLevel(3);
-          // setTimeout(() => setPre(getRoastList.burnt.pre), 2000);
         } else if (level === 3) {
           setRoast(getRoastList.burnt.roast);
-          setLevel(1);
-          // setTimeout(() => setPre(""), 2000);
+          setLevel(4);
         }
 
         // Reset scale and stop shaking
@@ -46,8 +43,8 @@ const Roast = () => {
 
         const tl = gsap.timeline();
 
+        // Shaking animation
         let spin = 0;
-
         while (spin < 6) {
           if (spin % 2 == 0) {
             tl.to(roastRef.current, {
@@ -63,6 +60,7 @@ const Roast = () => {
           spin++;
         }
 
+        // Scale down
         tl.to(roastRef.current, {
           rotation: 0,
           scale: 1,
@@ -115,7 +113,7 @@ const Roast = () => {
         <h1 ref={titleRef} className="text-3xl mb-4 font-bold">
           😇 Compliments for {name} 😇
         </h1>
-        <div ref={preRef} className="text-white text-lg h-10 mb-10">
+        <div ref={preRef} className="text-white text-lg mb-4">
           <h2>{pre}</h2>
         </div>
         <div
@@ -127,7 +125,8 @@ const Roast = () => {
         <button
           ref={buttonRef}
           onClick={generateRoast}
-          className="mt-4 px-4 py-2 bg-blue-500 rounded hover:bg-blue-600"
+          className="mt-4 px-4 py-2 bg-blue-500 rounded hover:bg-blue-600 disabled:bg-gray-500 disabled:text-gray-200 disabled:cursor-not-allowed"
+          disabled={level == 4}
         >
           Click me
         </button>
