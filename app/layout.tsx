@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Compliment Bot",
+  title: "Compliment You",
   description:
     "A website that used to send compliments to your friends/families.",
 };
