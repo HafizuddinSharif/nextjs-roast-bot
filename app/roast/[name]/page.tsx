@@ -7,65 +7,24 @@ import roastData from "../../assets/roast.json";
 
 const Roast = () => {
   const { name }: { name: string } = useParams();
-
   const getRoastList = roastData.roasts.find((e) => e.name === name)?.roast;
 
   const [roast, setRoast] = useState("placeholder");
   const [level, setLevel] = useState(1);
   const [pre, setPre] = useState(getRoastList.light.pre);
-
-  // Reference for the text container
   const roastRef = useRef(null);
   const preRef = useRef(null);
   const titleRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const generateRoast = () => {
+  const handleClick = () => {
     const main = gsap.timeline();
     main.to(roastRef.current, {
       opacity: 0,
       scale: 1,
       onComplete: () => {
-        // Update the roast text
-        if (level === 1) {
-          setRoast(getRoastList.light.roast);
-          setLevel(2);
-        } else if (level === 2) {
-          setRoast(getRoastList.medium.roast);
-          setLevel(3);
-        } else if (level === 3) {
-          setRoast(getRoastList.burnt.roast);
-          setLevel(4);
-        }
-
-        // Reset scale and stop shaking
-        gsap.to(roastRef.current, { scale: 1.5, opacity: 1, duration: 0.3 });
-
-        const tl = gsap.timeline();
-
-        // Shaking animation
-        let spin = 0;
-        while (spin < 6) {
-          if (spin % 2 == 0) {
-            tl.to(roastRef.current, {
-              rotation: 5,
-              duration: 0.1,
-            });
-          } else {
-            tl.to(roastRef.current, {
-              rotation: -5,
-              duration: 0.1,
-            });
-          }
-          spin++;
-        }
-
-        // Scale down
-        tl.to(roastRef.current, {
-          rotation: 0,
-          scale: 1,
-          duration: 0.3,
-        });
+        updateRoast();
+        roastAnimation();
       },
     });
 
@@ -73,25 +32,43 @@ const Roast = () => {
       opacity: 0,
       delay: 2,
       onComplete: () => {
-        // Update the roast text
-        if (level === 1) {
-          setPre(getRoastList.medium.pre);
-        } else if (level === 2) {
-          setPre(getRoastList.burnt.pre);
-        } else if (level === 3) {
-          setPre("end");
-        }
+        updatePreRoast();
       },
     });
+
     if (level !== 3) {
       main.to(preRef.current, { opacity: 1 });
     }
   };
 
-  // Ensure initial setup
-  useEffect(() => {
-    gsap.set(roastRef.current, { opacity: 0 });
+  const updateRoast = () => {
+    // Update the roast text
+    if (level === 1) {
+      setRoast(getRoastList.light.roast);
+      setLevel(2);
+    } else if (level === 2) {
+      setRoast(getRoastList.medium.roast);
+      setLevel(3);
+    } else if (level === 3) {
+      setRoast(getRoastList.burnt.roast);
+      setLevel(4);
+    }
+  };
+
+  const updatePreRoast = () => {
+    // Update the pre-roast text
+    if (level === 1) {
+      setPre(getRoastList.medium.pre);
+    } else if (level === 2) {
+      setPre(getRoastList.burnt.pre);
+    } else if (level === 3) {
+      setPre("end");
+    }
+  };
+
+  const introAnimation = () => {
     const tl = gsap.timeline();
+    tl.set(roastRef.current, { opacity: 0 });
     tl.fromTo(
       titleRef.current,
       { opacity: 0 },
@@ -107,6 +84,41 @@ const Roast = () => {
       { opacity: 0 },
       { opacity: 1, duration: 1, delay: 0.5 }
     );
+  };
+
+  const roastAnimation = () => {
+    // Reset scale and stop shaking
+    const tl = gsap.timeline();
+    tl.to(roastRef.current, { scale: 1.5, opacity: 1, duration: 0.3 });
+
+    // Shaking animation
+    let spin = 0;
+    while (spin < 6) {
+      if (spin % 2 == 0) {
+        tl.to(roastRef.current, {
+          rotation: 5,
+          duration: 0.1,
+        });
+      } else {
+        tl.to(roastRef.current, {
+          rotation: -5,
+          duration: 0.1,
+        });
+      }
+      spin++;
+    }
+
+    // Scale down
+    tl.to(roastRef.current, {
+      rotation: 0,
+      scale: 1,
+      duration: 0.3,
+    });
+  };
+
+  // Ensure initial setup
+  useEffect(() => {
+    introAnimation();
   }, []);
 
   return (
@@ -123,7 +135,7 @@ const Roast = () => {
         </div>
         <button
           ref={buttonRef}
-          onClick={generateRoast}
+          onClick={handleClick}
           className="mt-4 px-4 py-2 bg-blue-500 rounded hover:bg-blue-600 disabled:bg-gray-500 disabled:text-gray-200 disabled:cursor-not-allowed"
           disabled={level == 4}
         >
