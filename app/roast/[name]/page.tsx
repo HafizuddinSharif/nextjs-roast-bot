@@ -10,7 +10,7 @@ const Roast = () => {
 
   const getRoastList = roastData.roasts.find((e) => e.name === name)?.roast;
 
-  const [roast, setRoast] = useState("");
+  const [roast, setRoast] = useState("placeholder");
   const [level, setLevel] = useState(1);
   const [pre, setPre] = useState(getRoastList.light.pre);
 
@@ -79,11 +79,13 @@ const Roast = () => {
         } else if (level === 2) {
           setPre(getRoastList.burnt.pre);
         } else if (level === 3) {
-          setPre("");
+          setPre("end");
         }
       },
     });
-    main.to(preRef.current, { opacity: 1 });
+    if (level !== 3) {
+      main.to(preRef.current, { opacity: 1 });
+    }
   };
 
   // Ensure initial setup
@@ -109,17 +111,14 @@ const Roast = () => {
 
   return (
     <div className="w-full h-screen flex justify-center items-center text-white">
-      <div className="text-center w-full mx-12">
+      <div className="text-center md:w-8/12 mx-12">
         <h1 ref={titleRef} className="text-3xl mb-4 font-bold">
           😇 Compliments for {name} 😇
         </h1>
         <div ref={preRef} className="text-white text-lg mb-4">
           <h2>{pre}</h2>
         </div>
-        <div
-          ref={roastRef}
-          className="rounded text-xl bg-red-600 px-10 py-3 h-18"
-        >
+        <div ref={roastRef} className="rounded text-xl bg-red-600 px-10 py-3">
           <h2>{roast}</h2>
         </div>
         <button
